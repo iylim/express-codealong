@@ -1,18 +1,28 @@
 const express = require('express');
 const shortid = require('shortid');
 const moment = require('moment');
+const lowdb = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 const commentData = require('../data.js');
+
+// create the db file if it doesnt exist and seed with data
+const adapter = new FileSync('db.json', {
+  defaultValue: { comments: commentData }
+});
+
+const db = lowdb(adapter);
 
 const router = express.Router();
 
 // get all comments
 router.get('/', (req, res) => {
-  res.json(commentData);
+  const comments = db.get('comments').value();
+  res.json(comments);
 });
 
 // get one comments
 router.get('/:id', (req, res) => {
-  const myComment = commentData.find(comment => comment.id === parseInt(req.params.id));
+  const myComment = db.get('comments').find({ id: req.params.id }).value();
   if (myComment) {
     res.json(myComment);
   } res.status(404).json({ msg: 'Invalid ID' });
@@ -29,30 +39,30 @@ router.post('/', (req, res) => {
       timestamp: moment().format(),
       id: shortid.generate(),
     };
-    commentData.push(newComment);
-    res.status(201).json({ msg: 'Comment successfully added', comments: commentData });
+    db.get('comments').push(newComment).write();
+    res.status(201).json({ msg: 'Comment successfully added', comments: db.get('comments').value() });
   }
 });
 
 router.put('/:id', (req, res) => {
-  const myComment = commentData.find(comment => comment.id === parseInt(req.params.id));
-  if (!myComment) res.status(404).json({ msg: 'Invalid ID' });
-  if (!req.body.text) res.status(400).json({ msg: 'Please Provide Comment Text' });
-  myComment.text = req.body.text;
-  res.status(202).json({ msg: 'Comment successfully updated', comments: commentData });
+  if (!req.body.text) {
+    return res.status(400).json({ msg: 'Invalid Syntax: Please provide Comment Text' });
+  }
+  if (!db.get('comments').find({ id: req.params.id }).value()) {
+    return res.status(404).json({ msg: 'Invalid ID' });
+  }
+  db.get('comments').find({ id: req.params.id }).assign({ text: req.body.text }).write();
+  return res.json(db.get('comments').value());
 });
-// myComment = 
-// myComment ...
-// text: req.body.text,
 
 router.delete('/:id', (req, res) => {
-  const idx = commentData.findIndex(comment => comment.id === parseInt(req.params.id));
-  if (idx < 0) {
-    res.status(404).json({ msg: 'Invalid Comment ID' });
-  } else {
-    commentData.splice(idx, 1);
-    res.status(200).json({ msg: 'Removed Comment', comments: commentData });
+  console.log(db.get('comments').find({ id: req.params.id }).value());
+  console.log(req.params.id);
+  if (!db.get('comments').find({ id: req.params.id }).value()) {
+    return res.status(404).json({ msg: 'Invalid ID' });
   }
+  db.get('comments').remove({ id: req.params.id }).write();
+  res.status(200).json({ msg: 'comment deleted', comments: db.get('comments').value() });
 });
 
 module.exports = router;
