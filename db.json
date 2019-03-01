@@ -6,12 +6,21 @@
       "timestamp": "2019-02-22T08:45:37-08:00"
     },
     {
+<<<<<<< HEAD
       "text": "You are the best",
       "id": "3",
       "timestamp": "2019-02-24T08:45:37-08:00"
     },
     {
       "text": "Ramen is my fav food ever",
+=======
+      "text": "Super good",
+      "id": "2",
+      "timestamp": "2019-02-23T08:45:37-08:00"
+    },
+    {
+      "text": "hey",
+>>>>>>> c24f5416adae537c618cfe70e39c44409c66d033
       "id": "4",
       "timestamp": "2019-02-25T08:45:37-08:00"
     },
@@ -19,6 +28,19 @@
       "text": "Nice Nice Nice!",
       "id": "5",
       "timestamp": "2019-02-26T08:45:37-08:00"
+<<<<<<< HEAD
+=======
+    },
+    {
+      "text": "hey there",
+      "id": "oIO5b0VWY",
+      "timestamp": "2019-03-01T14:15:39-08:00"
+    },
+    {
+      "text": "hey there",
+      "id": "4fwXzzMJ-",
+      "timestamp": "2019-03-01T14:16:06-08:00"
+>>>>>>> c24f5416adae537c618cfe70e39c44409c66d033
     }
   ]
 }

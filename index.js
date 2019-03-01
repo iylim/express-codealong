@@ -1,25 +1,30 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+<<<<<<< HEAD
 const logger = require('./middleware/logger.js');
 const commentsRouter = require('./routes/comments');
+
 const app = express();
 
 // app.get('/', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
 
+
+/* Set up middleware */
 // body parser middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false })); // for form data
+// form data
+app.use(express.urlencoded({ extended: false }));
 
 // logger middleware
-app.use(logger);
+// app.use(logger);
 
 // static middleware
 app.use(express.static(path.join(__dirname, 'public')));
 
-// routes
+// routing
 app.use('/api/comments', commentsRouter);
 
 // port 

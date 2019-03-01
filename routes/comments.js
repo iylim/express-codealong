@@ -3,11 +3,12 @@ const shortid = require('shortid');
 const moment = require('moment');
 const lowdb = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const commentData = require('../data.js');
+const commentData = require('../data');
 
-// create the db file if it doesnt exist and seed with data
+// create the db file if it doesn't exist
+// and seed it with data
 const adapter = new FileSync('db.json', {
-  defaultValue: { comments: commentData }
+  defaultValue: { comments: commentData },
 });
 
 const db = lowdb(adapter);
@@ -20,12 +21,17 @@ router.get('/', (req, res) => {
   res.json(comments);
 });
 
-// get one comments
+// get a single comment by id
 router.get('/:id', (req, res) => {
-  const myComment = db.get('comments').find({ id: req.params.id }).value();
+  const myComment = db
+    .get('comments')
+    .find({ id: req.params.id })
+    .value();
   if (myComment) {
     res.json(myComment);
-  } res.status(404).json({ msg: 'Invalid ID' });
+  } else {
+    res.status(404).json({ msg: 'Invalid ID' });
+  }
 });
 
 // create a comment
