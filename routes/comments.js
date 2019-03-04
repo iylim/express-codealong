@@ -17,9 +17,16 @@ const router = express.Router();
 
 // get all comments
 router.get('/', (req, res) => {
-  const comments = db.get('comments').value();
+  let comments = db.get('comments').value();
+  if (req.query.filter) {
+    const filterText = req.query.filter;
+    comments = comments.filter(comment => comment.text.toLowerCase().includes(filterText.toLowerCase()));
+  }
   res.json(comments);
 });
+
+// get comments?filter="your text here"
+
 
 // get a single comment by id
 router.get('/:id', (req, res) => {
