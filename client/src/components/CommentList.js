@@ -4,13 +4,13 @@ import CommentItem from './CommentItem';
 
 export default class CommentList extends React.Component {
   render() {
+    const { comments } = this.props;
     return(
       <div className="message-board-comment-list">
-        {this.props.comments.map(comment => 
-          <CommentItem comment={comment} />
+        {comments.map(comment => 
+          <CommentItem comment={comment} key={comment.id} />
         )}
       </div>
     );
   }
 }
-
