@@ -15,7 +15,6 @@ class Search extends React.Component {
   handleSearch = event => {
     event.preventDefault();
     this.props.onSearch(this.state.searchTextValue);
-    this.setState({ searchTextValue: '' })
   }
 
   render() {
