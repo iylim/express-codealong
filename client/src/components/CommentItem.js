@@ -1,20 +1,21 @@
 import React from 'react';
 import '../css/CommentItem.css';
 
-export default class CommentItem extends React.Component {
+class CommentItem extends React.Component {
   
   render() {
-    const { comment } = this.props;
+    const { comment, onDeleteMe } = this.props;
     return(
       <div className="message-board-comment-item">
         <p>{comment.text}</p>
         <p className="timestamp">{new Date(comment.timestamp).toLocaleString()}</p>
         <span className="container">
           <button type="button" className="edit-button">Edit</button>
-          <button type="button" className="delete-button">x</button>
+          <button type="button" className="delete-button" onClick={onDeleteMe}>x</button>
         </span>
       </div>
     )
   }
 }
 
+export default CommentItem;
