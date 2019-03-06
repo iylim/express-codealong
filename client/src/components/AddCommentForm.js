@@ -14,7 +14,7 @@ class AddCommentForm extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.onSearch(this.state.searchTextValue);
+    this.props.onAddComment(this.state.commentTextValue);
     this.setState({ commentTextValue: '' })
   }
 
